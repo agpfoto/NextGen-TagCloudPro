@@ -472,8 +472,19 @@ class TagCloud extends Search {
 		global $wpdb;
 
 		/** @param string[] $excluded */
-		$excluded = (array) \apply_filters( 'ngg_pro_tagcloud_excluded_tags', [] );
+		$built_in_excluded = [
+		    'AGPfoto',
+		    'Alex G Perez',
+		    'www.agpfoto.com',
+		    'printforsale',
+		    'alltimefavorite',
+		];
+		$excluded = array_unique( array_merge(
+		    $built_in_excluded,
+		    (array) apply_filters( 'ngg_pro_tagcloud_excluded_tags', [] )
+		) );
 
+		
 		$ph_ids  = rtrim( str_repeat( '%d,', count( $image_ids ) ), ',' );
 		$exc_sql = '';
 		if ( ! empty( $excluded ) ) {
